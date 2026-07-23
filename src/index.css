@@ -349,6 +349,10 @@ canvas {
   transform: rotate(10deg);
 }
 
+.participant-card.has-photo .participant-card__face::after {
+  display: none;
+}
+
 .participant-card__portrait {
   position: absolute;
   left: 18%;
@@ -406,23 +410,10 @@ canvas {
   position: absolute;
   left: 10px;
   right: 10px;
-  top: 62%;
+  top: 65%;
   padding: 0;
   font-size: clamp(0.92rem, 1.35vw, 1.42rem);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.62);
-}
-
-.participant-card__face small {
-  position: relative;
-  z-index: 2;
-  justify-self: center;
-  margin-bottom: 16px;
-  border-radius: 999px;
-  background: rgba(5, 5, 5, 0.08);
-  padding: 0.28rem 0.62rem;
-  color: rgba(5, 5, 5, 0.56);
-  font-size: 0.64rem;
-  font-weight: 800;
 }
 
 .participant-card.is-active .participant-card__side {

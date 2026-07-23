@@ -285,7 +285,6 @@ function ParticipantCard({
           </div>
         ) : null}
         <strong>{name}</strong>
-        <small>{winner && phase === "revealed" ? "ведет" : "участник"}</small>
       </div>
     </motion.article>
   );
