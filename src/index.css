@@ -1,0 +1,454 @@
+@import url("https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&family=Jura:wght@400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  font-synthesis: none;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #000;
+}
+
+canvas {
+  outline: none;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(172, 110, 255, 0.5) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  min-height: 44px;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: rgba(172, 110, 255, 0.42);
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(223, 130, 206, 0.7);
+  background-clip: padding-box;
+}
+
+.reference-backdrop {
+  background:
+    radial-gradient(ellipse at 86% 86%, rgba(194, 38, 92, 0.18), transparent 42%),
+    radial-gradient(ellipse at 66% 76%, rgba(191, 91, 255, 0.18), transparent 38%),
+    radial-gradient(ellipse at 18% 18%, rgba(92, 64, 255, 0.19), transparent 36%),
+    radial-gradient(circle at 50% 28%, rgba(226, 141, 255, 0.12), transparent 31%),
+    linear-gradient(180deg, #020202 0%, #000 56%, #050208 100%);
+}
+
+.reference-backdrop::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.035) 50%, transparent 100%),
+    radial-gradient(ellipse at 52% 64%, rgba(255, 255, 255, 0.08), transparent 22%);
+  mix-blend-mode: screen;
+  opacity: 0.62;
+}
+
+.grain-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.12;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.45) 0 1px, transparent 1.4px),
+    radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.24) 0 1px, transparent 1.5px);
+  background-size: 96px 96px, 132px 132px;
+  mix-blend-mode: overlay;
+}
+
+.topbar {
+  min-height: 74px;
+}
+
+.brand-dot {
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: #ffcc00;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.38),
+    0 0 28px rgba(255, 204, 0, 0.72);
+}
+
+.brand-dot::after {
+  content: "";
+  position: absolute;
+  right: -4px;
+  top: -4px;
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: #ff3b30;
+  box-shadow: 0 0 16px rgba(255, 59, 48, 0.8);
+}
+
+.workspace {
+  align-items: stretch;
+}
+
+.participants-panel,
+.main-panel {
+  min-height: 0;
+}
+
+.participants-panel {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 24px;
+  padding-top: 2px;
+}
+
+.panel-heading,
+.hero-line {
+  min-height: 106px;
+}
+
+.panel-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.11);
+  padding-bottom: 22px;
+}
+
+.panel-heading h2 {
+  margin: 0;
+  font-family: "Jura", "Golos Text", sans-serif;
+  font-size: clamp(2.25rem, 3.5vw, 4rem);
+  font-weight: 500;
+  letter-spacing: -0.08em;
+  line-height: 0.9;
+}
+
+.panel-heading p,
+.hero-line p {
+  margin: 10px 0 0;
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.names-box {
+  min-height: 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(187, 112, 255, 0.13), transparent 34%),
+    radial-gradient(circle at 92% 16%, rgba(223, 130, 206, 0.08), transparent 32%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.018)),
+    rgba(0, 0, 0, 0.28);
+  padding: 22px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09);
+}
+
+.names-textarea {
+  color: rgba(255, 255, 255, 0.9);
+  caret-color: #cf84ff;
+}
+
+.names-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.28);
+}
+
+.control-block {
+  display: grid;
+  gap: 14px;
+}
+
+.main-panel {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  gap: 22px;
+}
+
+.hero-line {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.11);
+  padding-bottom: 22px;
+}
+
+.hero-line h1 {
+  margin: 0;
+  max-width: 520px;
+  font-family: "Jura", "Golos Text", sans-serif;
+  font-size: clamp(2.25rem, 3.5vw, 4rem);
+  font-weight: 500;
+  letter-spacing: -0.08em;
+  line-height: 0.9;
+  text-wrap: balance;
+}
+
+.stage {
+  isolation: isolate;
+  border: 0;
+  background:
+    radial-gradient(ellipse at 88% 104%, rgba(194, 38, 92, 0.23), transparent 48%),
+    radial-gradient(ellipse at 48% 108%, rgba(172, 110, 255, 0.18), transparent 48%),
+    radial-gradient(ellipse at 84% 18%, rgba(223, 130, 206, 0.13), transparent 36%),
+    radial-gradient(circle at 28% 18%, rgba(92, 64, 255, 0.11), transparent 31%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.058), rgba(255, 255, 255, 0.016) 48%, rgba(0, 0, 0, 0.25)),
+    #030303;
+  box-shadow:
+    inset 0 -64px 120px rgba(0, 0, 0, 0.54),
+    0 34px 120px rgba(0, 0, 0, 0.38);
+}
+
+.stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 26% 0%, rgba(255, 255, 255, 0.055), transparent 26%),
+    radial-gradient(ellipse at 92% 12%, rgba(223, 130, 206, 0.075), transparent 34%);
+  opacity: 0.7;
+}
+
+.stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 54%, transparent 0%, transparent 61%, rgba(0, 0, 0, 0.54) 100%),
+    linear-gradient(120deg, transparent 0 40%, rgba(255, 255, 255, 0.045) 47%, transparent 55% 100%);
+}
+
+.stage-ambient {
+  pointer-events: none;
+  position: absolute;
+  inset: auto -12% -24%;
+  z-index: 1;
+  height: 56%;
+  border-radius: 50% 50% 0 0;
+  background:
+    radial-gradient(ellipse at 48% 34%, rgba(188, 112, 255, 0.34), transparent 44%),
+    radial-gradient(ellipse at 78% 58%, rgba(194, 38, 92, 0.24), transparent 50%);
+  filter: blur(1px) saturate(1.02);
+  opacity: 0.74;
+}
+
+.stage-brand-mark {
+  pointer-events: none;
+  position: absolute;
+  right: clamp(0.8rem, 3.2vw, 3.4rem);
+  top: clamp(1rem, 3vw, 3rem);
+  z-index: 1;
+  color: rgba(194, 38, 92, 0.14);
+  font-family: "Golos Text", sans-serif;
+  font-size: clamp(7.5rem, 15vw, 15rem);
+  font-weight: 800;
+  line-height: 0.8;
+  text-shadow:
+    0 0 36px rgba(194, 38, 92, 0.18),
+    0 0 100px rgba(194, 38, 92, 0.1);
+  transform: rotate(-3deg);
+  user-select: none;
+}
+
+.participant-card {
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+.participant-card__shadow {
+  position: absolute;
+  inset: auto 5% -9% 7%;
+  height: 20%;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.42);
+  filter: blur(10px);
+}
+
+.participant-card__side {
+  position: absolute;
+  inset: 8px -8px -8px 8px;
+  border-radius: 25px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22), transparent 28%),
+    linear-gradient(135deg, #6b38e8, #120845 68%, #05030c);
+  box-shadow: 0 20px 52px rgba(0, 0, 0, 0.42);
+}
+
+.participant-card__face {
+  position: relative;
+  display: grid;
+  height: 100%;
+  grid-template-rows: auto 1fr auto;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 22% 0%, rgba(255, 255, 255, 0.9), transparent 36%),
+    linear-gradient(180deg, #f7f5f1 0%, #d8d5ce 100%);
+  color: #050505;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.12);
+}
+
+.participant-card__face::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 2px solid rgba(5, 5, 5, 0.78);
+  border-radius: 15px;
+  pointer-events: none;
+}
+
+.participant-card__face::after {
+  content: "";
+  position: absolute;
+  inset: -35% -60%;
+  pointer-events: none;
+  background: linear-gradient(112deg, transparent 39%, rgba(255, 255, 255, 0.5) 48%, transparent 58%);
+  opacity: 0.44;
+  transform: rotate(10deg);
+}
+
+.participant-card__meta {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 15px 0;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: rgba(5, 5, 5, 0.58);
+}
+
+.participant-card__face strong {
+  position: relative;
+  z-index: 2;
+  align-self: center;
+  padding: 0 18px;
+  text-align: center;
+  overflow-wrap: anywhere;
+  font-family: "Golos Text", sans-serif;
+  font-size: clamp(1.08rem, 1.7vw, 1.8rem);
+  font-weight: 800;
+  letter-spacing: -0.055em;
+  line-height: 0.95;
+}
+
+.participant-card__face small {
+  position: relative;
+  z-index: 2;
+  justify-self: center;
+  margin-bottom: 16px;
+  border-radius: 999px;
+  background: rgba(5, 5, 5, 0.08);
+  padding: 0.28rem 0.62rem;
+  color: rgba(5, 5, 5, 0.56);
+  font-size: 0.64rem;
+  font-weight: 800;
+}
+
+.participant-card.is-active .participant-card__side {
+  box-shadow:
+    0 0 0 1px rgba(188, 112, 255, 0.55),
+    0 22px 62px rgba(94, 52, 255, 0.32);
+}
+
+.participant-card.is-winner .participant-card__side {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.3), transparent 28%),
+    linear-gradient(135deg, #c57bff, #5728d8 58%, #110535);
+  box-shadow:
+    0 0 0 1px rgba(225, 142, 255, 0.6),
+    0 32px 86px rgba(173, 84, 255, 0.34);
+}
+
+.participant-card.is-winner .participant-card__face {
+  background:
+    radial-gradient(circle at 28% 0%, rgba(255, 255, 255, 1), transparent 36%),
+    linear-gradient(180deg, #ffffff 0%, #dedce7 100%);
+}
+
+@media (max-width: 1024px) {
+  .topbar {
+    min-height: auto;
+  }
+
+  .panel-heading,
+  .hero-line {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .hero-line {
+    display: grid;
+  }
+
+  .hero-line h1 {
+    font-size: clamp(2.25rem, 12vw, 4rem);
+  }
+}
+
+@media (max-width: 640px) {
+  .names-box {
+    border-radius: 22px;
+    padding: 18px;
+  }
+
+  .stage {
+    border-radius: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
