@@ -186,10 +186,12 @@ function ParticipantCard({
   reducedMotion: boolean;
   photoUrl?: string;
 }) {
-  const revealScale = Math.min(1.78, Math.max(1.28, 252 / placement.width));
   const exitDirection = index % 2 === 0 ? -1 : 1;
   const isRevealedWinner = winner && phase === "revealed";
   const isShuffling = phase === "shuffling" && !reducedMotion;
+  const revealWidth = Math.min(310, Math.max(252, placement.width * 1.46));
+  const renderWidth = isRevealedWinner ? revealWidth : placement.width;
+  const renderHeight = isRevealedWinner ? revealWidth * 1.36 : placement.height;
   const shuffleX = seededOffset(index, 7) * Math.min(52, placement.width * 0.28);
   const shuffleY = seededOffset(index, 8) * Math.min(42, placement.height * 0.18);
   const shuffleRotate = seededOffset(index, 9) * 10;
@@ -205,10 +207,10 @@ function ParticipantCard({
       layout
       className={cn("participant-card absolute left-1/2 top-1/2", visiblePhotoUrl && "has-photo", active && "is-active", winner && "is-winner")}
       style={{
-        width: placement.width,
-        height: placement.height,
-        marginLeft: -placement.width / 2,
-        marginTop: -placement.height / 2,
+        width: renderWidth,
+        height: renderHeight,
+        marginLeft: -renderWidth / 2,
+        marginTop: -renderHeight / 2,
         zIndex: winner ? 40 : 10 + placement.layer,
       }}
       initial={{
@@ -220,7 +222,7 @@ function ParticipantCard({
       }}
       animate={
         isRevealedWinner
-          ? { opacity: 1, x: 0, y: -8, rotate: 0, scale: revealScale }
+          ? { opacity: 1, x: 0, y: -8, rotate: 0, scale: 1 }
           : isShuffling
             ? {
                 opacity: 1,

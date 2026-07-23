@@ -291,6 +291,10 @@ canvas {
 
 .participant-card {
   transform-origin: center;
+  backface-visibility: hidden;
+}
+
+.participant-card:not(.is-winner) {
   will-change: transform, opacity;
 }
 
@@ -377,6 +381,7 @@ canvas {
   height: 100%;
   object-fit: cover;
   filter: saturate(0.92) contrast(1.03);
+  image-rendering: auto;
 }
 
 .participant-card__meta {
