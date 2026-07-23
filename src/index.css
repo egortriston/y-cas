@@ -351,9 +351,9 @@ canvas {
 
 .participant-card__portrait {
   position: absolute;
-  left: 15%;
-  right: 15%;
-  top: 18%;
+  left: 18%;
+  right: 18%;
+  top: 15%;
   z-index: 1;
   aspect-ratio: 1;
   overflow: hidden;
@@ -404,8 +404,18 @@ canvas {
 
 .participant-card.has-photo .participant-card__face strong {
   align-self: end;
-  padding-bottom: 22px;
-  font-size: clamp(0.95rem, 1.45vw, 1.56rem);
+  justify-self: center;
+  width: calc(100% - 30px);
+  margin-bottom: 45px;
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(232, 229, 222, 0.78)),
+    rgba(245, 243, 238, 0.86);
+  padding: 0.28rem 0.42rem 0.34rem;
+  font-size: clamp(0.88rem, 1.32vw, 1.38rem);
+  box-shadow:
+    0 8px 18px rgba(5, 5, 5, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82);
 }
 
 .participant-card__face small {
