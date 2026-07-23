@@ -290,6 +290,7 @@ canvas {
 }
 
 .participant-card {
+  --card-scale: 1;
   transform-origin: center;
   backface-visibility: hidden;
 }
@@ -337,9 +338,9 @@ canvas {
 .participant-card__face::before {
   content: "";
   position: absolute;
-  inset: 8px;
-  border: 2px solid rgba(5, 5, 5, 0.78);
-  border-radius: 15px;
+  inset: var(--card-inner-inset, 8px);
+  border: var(--card-inner-border, 2px) solid rgba(5, 5, 5, 0.78);
+  border-radius: var(--card-inner-radius, 15px);
   pointer-events: none;
 }
 
@@ -390,9 +391,9 @@ canvas {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 15px 0;
+  padding: var(--card-meta-pad-y, 14px) var(--card-meta-pad-x, 15px) 0;
   font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 0.68rem;
+  font-size: var(--card-meta-size, 0.68rem);
   font-weight: 700;
   color: rgba(5, 5, 5, 0.58);
 }
@@ -401,11 +402,11 @@ canvas {
   position: relative;
   z-index: 2;
   align-self: center;
-  padding: 0 18px;
+  padding: 0 var(--card-name-pad-x, 18px);
   text-align: center;
   overflow-wrap: anywhere;
   font-family: "Golos Text", sans-serif;
-  font-size: clamp(1.08rem, 1.7vw, 1.8rem);
+  font-size: var(--card-name-size, clamp(1.08rem, 1.7vw, 1.8rem));
   font-weight: 800;
   letter-spacing: -0.055em;
   line-height: 0.95;
@@ -413,11 +414,11 @@ canvas {
 
 .participant-card.has-photo .participant-card__face strong {
   position: absolute;
-  left: 10px;
-  right: 10px;
-  top: 65%;
+  left: var(--card-photo-name-inset, 10px);
+  right: var(--card-photo-name-inset, 10px);
+  top: 64%;
   padding: 0;
-  font-size: clamp(0.92rem, 1.35vw, 1.42rem);
+  font-size: var(--card-photo-name-size, clamp(0.92rem, 1.35vw, 1.42rem));
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.62);
 }
 

@@ -1,4 +1,5 @@
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
+import type { CSSProperties } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import gsap from "gsap";
 import { Button } from "@/components/ui/button";
@@ -34,6 +35,8 @@ type CardPlacement = {
   height: number;
   layer: number;
 };
+
+type CardStyle = CSSProperties & Record<`--${string}`, string | number>;
 
 function parseNames(value: string) {
   return value
@@ -192,6 +195,9 @@ function ParticipantCard({
   const revealWidth = Math.min(310, Math.max(252, placement.width * 1.46));
   const renderWidth = isRevealedWinner ? revealWidth : placement.width;
   const renderHeight = isRevealedWinner ? revealWidth * 1.36 : placement.height;
+  const contentScale = renderWidth / placement.width;
+  const baseNameSize = Math.min(1.8, Math.max(1.08, placement.width / 118));
+  const basePhotoNameSize = Math.min(1.42, Math.max(0.92, placement.width / 128));
   const shuffleX = seededOffset(index, 7) * Math.min(52, placement.width * 0.28);
   const shuffleY = seededOffset(index, 8) * Math.min(42, placement.height * 0.18);
   const shuffleRotate = seededOffset(index, 9) * 10;
@@ -202,17 +208,30 @@ function ParticipantCard({
     setPhotoFailed(false);
   }, [photoUrl]);
 
+  const cardStyle = {
+    width: renderWidth,
+    height: renderHeight,
+    marginLeft: -renderWidth / 2,
+    marginTop: -renderHeight / 2,
+    zIndex: winner ? 40 : 10 + placement.layer,
+    "--card-scale": contentScale,
+    "--card-inner-inset": `${8 * contentScale}px`,
+    "--card-inner-border": `${2 * contentScale}px`,
+    "--card-inner-radius": `${15 * contentScale}px`,
+    "--card-meta-pad-y": `${14 * contentScale}px`,
+    "--card-meta-pad-x": `${15 * contentScale}px`,
+    "--card-meta-size": `${0.68 * contentScale}rem`,
+    "--card-name-pad-x": `${18 * contentScale}px`,
+    "--card-name-size": `${baseNameSize * contentScale}rem`,
+    "--card-photo-name-inset": `${10 * contentScale}px`,
+    "--card-photo-name-size": `${basePhotoNameSize * contentScale}rem`,
+  } satisfies CardStyle;
+
   return (
     <motion.article
       layout
       className={cn("participant-card absolute left-1/2 top-1/2", visiblePhotoUrl && "has-photo", active && "is-active", winner && "is-winner")}
-      style={{
-        width: renderWidth,
-        height: renderHeight,
-        marginLeft: -renderWidth / 2,
-        marginTop: -renderHeight / 2,
-        zIndex: winner ? 40 : 10 + placement.layer,
-      }}
+      style={cardStyle}
       initial={{
         opacity: 0,
         x: placement.x,
