@@ -403,19 +403,13 @@ canvas {
 }
 
 .participant-card.has-photo .participant-card__face strong {
-  align-self: end;
-  justify-self: center;
-  width: calc(100% - 30px);
-  margin-bottom: 45px;
-  border-radius: 14px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(232, 229, 222, 0.78)),
-    rgba(245, 243, 238, 0.86);
-  padding: 0.28rem 0.42rem 0.34rem;
-  font-size: clamp(0.88rem, 1.32vw, 1.38rem);
-  box-shadow:
-    0 8px 18px rgba(5, 5, 5, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 62%;
+  padding: 0;
+  font-size: clamp(0.92rem, 1.35vw, 1.42rem);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.62);
 }
 
 .participant-card__face small {
