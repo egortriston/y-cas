@@ -6,7 +6,22 @@ import { Textarea } from "@/components/ui/textarea";
 import { ShimmerButton } from "@/components/effects/shimmer-button";
 import { cn } from "@/lib/utils";
 
-const initialNames = ["Аня", "Игорь", "Саша", "Лена", "Дима", "Катя", "Миша", "Оля"].join("\n");
+const defaultParticipants = [
+  { name: "Артем", photoUrl: "https://center.yandex-team.ru/api/v1/user/temapetrov/photo/original.jpg" },
+  { name: "Егор", photoUrl: "https://center.yandex-team.ru/api/v1/user/musnitskiy/photo_979145/original.jpg" },
+  { name: "Коля", photoUrl: "https://center.yandex-team.ru/api/v1/user/n-kurbatov/photo_700384/original.jpg" },
+  { name: "Саша", photoUrl: "https://center.yandex-team.ru/api/v1/user/amandrov/photo_923431/original.jpg" },
+  { name: "Кирилл", photoUrl: "https://center.yandex-team.ru/api/v1/user/kirvn/photo/original.jpg" },
+  { name: "Соня", photoUrl: "https://center.yandex-team.ru/api/v1/user/sphsv/photo_886746/original.jpg" },
+  { name: "Олег", photoUrl: "https://center.yandex-team.ru/api/v1/user/layokov/photo/original.jpg" },
+  { name: "Амир", photoUrl: "https://center.yandex-team.ru/api/v1/user/ammustafaev/photo_864730/original.jpg" },
+  { name: "Никита Т", photoUrl: "https://center.yandex-team.ru/api/v1/user/niktolstiakov/photo/original.jpg" },
+  { name: "Никита Ч", photoUrl: "https://center.yandex-team.ru/api/v1/user/cnikitaa16/photo_818066/original.jpg" },
+  { name: "Дима", photoUrl: "https://center.yandex-team.ru/api/v1/user/jonmagon/photo_648376/original.jpg" },
+] as const;
+
+const initialNames = defaultParticipants.map((participant) => participant.name).join("\n");
+const defaultPhotoByName = new Map<string, string>(defaultParticipants.map((participant) => [participant.name, participant.photoUrl]));
 
 type DrawPhase = "idle" | "shuffling" | "eliminating" | "revealed";
 
@@ -160,6 +175,7 @@ function ParticipantCard({
   winner,
   phase,
   reducedMotion,
+  photoUrl,
 }: {
   name: string;
   index: number;
@@ -168,6 +184,7 @@ function ParticipantCard({
   winner: boolean;
   phase: DrawPhase;
   reducedMotion: boolean;
+  photoUrl?: string;
 }) {
   const revealScale = Math.min(1.78, Math.max(1.28, 252 / placement.width));
   const exitDirection = index % 2 === 0 ? -1 : 1;
@@ -176,11 +193,17 @@ function ParticipantCard({
   const shuffleX = seededOffset(index, 7) * Math.min(52, placement.width * 0.28);
   const shuffleY = seededOffset(index, 8) * Math.min(42, placement.height * 0.18);
   const shuffleRotate = seededOffset(index, 9) * 10;
+  const [photoFailed, setPhotoFailed] = useState(false);
+  const visiblePhotoUrl = photoUrl && !photoFailed ? photoUrl : undefined;
+
+  useLayoutEffect(() => {
+    setPhotoFailed(false);
+  }, [photoUrl]);
 
   return (
     <motion.article
       layout
-      className={cn("participant-card absolute left-1/2 top-1/2", active && "is-active", winner && "is-winner")}
+      className={cn("participant-card absolute left-1/2 top-1/2", visiblePhotoUrl && "has-photo", active && "is-active", winner && "is-winner")}
       style={{
         width: placement.width,
         height: placement.height,
@@ -256,6 +279,11 @@ function ParticipantCard({
           <span>{String(index + 1).padStart(2, "0")}</span>
           <span>Я</span>
         </div>
+        {visiblePhotoUrl ? (
+          <div className="participant-card__portrait">
+            <img src={visiblePhotoUrl} alt="" loading="lazy" onError={() => setPhotoFailed(true)} />
+          </div>
+        ) : null}
         <strong>{name}</strong>
         <small>{winner && phase === "revealed" ? "ведет" : "участник"}</small>
       </div>
@@ -312,6 +340,7 @@ function CardTable({
                   winner={phase === "revealed" && winnerIndex === index}
                   phase={phase}
                   reducedMotion={reducedMotion}
+                  photoUrl={defaultPhotoByName.get(name)}
                 />
               ) : null,
             )}
@@ -470,7 +499,7 @@ export default function App() {
                   setRawNames(event.target.value);
                   resetDraw(event.target.value);
                 }}
-                placeholder={"Анна\nИгорь\nСаша\nЛена"}
+                placeholder={"Артем\nЕгор\nКоля\nСаша"}
                 spellCheck={false}
                 className="names-textarea min-h-[28rem] rounded-none border-0 bg-transparent p-0 text-[1.08rem] font-medium leading-[2.15rem] shadow-none outline-none focus:bg-transparent focus:ring-0 max-lg:min-h-[14rem]"
               />

@@ -349,6 +349,32 @@ canvas {
   transform: rotate(10deg);
 }
 
+.participant-card__portrait {
+  position: absolute;
+  left: 15%;
+  right: 15%;
+  top: 18%;
+  z-index: 1;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 1px solid rgba(5, 5, 5, 0.2);
+  border-radius: 22%;
+  background:
+    radial-gradient(circle at 30% 10%, rgba(255, 255, 255, 0.62), transparent 34%),
+    linear-gradient(180deg, rgba(5, 5, 5, 0.08), rgba(5, 5, 5, 0.16));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.62),
+    0 10px 22px rgba(5, 5, 5, 0.16);
+}
+
+.participant-card__portrait img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.92) contrast(1.03);
+}
+
 .participant-card__meta {
   position: relative;
   z-index: 2;
@@ -374,6 +400,12 @@ canvas {
   font-weight: 800;
   letter-spacing: -0.055em;
   line-height: 0.95;
+}
+
+.participant-card.has-photo .participant-card__face strong {
+  align-self: end;
+  padding-bottom: 22px;
+  font-size: clamp(0.95rem, 1.45vw, 1.56rem);
 }
 
 .participant-card__face small {
